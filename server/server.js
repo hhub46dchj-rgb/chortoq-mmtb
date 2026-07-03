@@ -22,29 +22,45 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-let cached = null;
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+}
 
 async function connectDB() {
-    if (cached) return cached;
-    
-    if (!process.env.MONGODB_URI) {
-        throw new Error('MONGODB_URI topilmadi');
+    if (cached.conn) {
+        return cached.conn;
     }
 
-    cached = await mongoose.connect(process.env.MONGODB_URI);
-    return cached;
+    if (!cached.promise) {
+        const opts = {
+            bufferCommands: false,
+            maxPoolSize: 10,
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+        };
+
+        cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
+            return mongoose;
+        });
+    }
+
+    try {
+        cached.conn = await cached.promise;
+    } catch (e) {
+        cached.promise = null;
+        throw e;
+    }
+
+    return cached.conn;
 }
 
 async function handler(req, res) {
     try {
         await connectDB();
         
-        if (req.url.startsWith('/api/')) {
-            return app(req, res);
-        }
-        
-        const indexPath = path.join(__dirname, '../public/index.html');
-        return res.sendFile(indexPath);
+        return app(req, res);
     } catch (error) {
         console.error('Xatolik:', error.message);
         return res.status(500).json({ message: 'Server xatosi', error: error.message });
