@@ -22,6 +22,14 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+app.all('/api/*', (req, res) => {
+    res.status(404).json({ message: 'API topilmadi' });
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 let cached = global.mongoose;
 
 if (!cached) {

@@ -20,21 +20,17 @@ const auth = async (req, res, next) => {
         req.token = token;
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Noto\'g\'ri token' });
+        return res.status(401).json({ message: 'Noto\'g\'ri token' });
     }
 };
 
-const adminAuth = async (req, res, next) => {
-    try {
-        await auth(req, res, () => {
-            if (req.user.role !== 'admin') {
-                return res.status(403).json({ message: 'Admin huquqi talab qilinadi' });
-            }
-            next();
-        });
-    } catch (error) {
-        res.status(403).json({ message: 'Ruxsat etilmagan' });
-    }
+const adminAuth = (req, res, next) => {
+    auth(req, res, () => {
+        if (req.user && req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Admin huquqi talab qilinadi' });
+        }
+        next();
+    });
 };
 
 const optionalAuth = async (req, res, next) => {
@@ -49,10 +45,10 @@ const optionalAuth = async (req, res, next) => {
                 req.token = token;
             }
         }
-        next();
     } catch (error) {
-        next();
+        // ignore
     }
+    next();
 };
 
 module.exports = { auth, adminAuth, optionalAuth };
