@@ -19,6 +19,7 @@ function initApp() {
     initFileUpload();
     initSearch();
     initUserMenu();
+    initBgSlider();
 
     if (token) {
         loadUserProfile();
@@ -26,6 +27,22 @@ function initApp() {
 
     loadPosts();
     loadStats();
+}
+
+// ORQA FON SLAYDERI
+function initBgSlider() {
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    
+    if (slides.length === 0) return;
+
+    function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }
+    
+    setInterval(nextSlide, 5000);
 }
 
 // THEME
