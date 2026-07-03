@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHORTOQMMTB - Rasmiy Sayt</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <!-- CONFIRM MODAL -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon warning">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>O'chirishni tasdiqlaysizmi?</h3>
+            <p id="confirmText">Ushbu ma'lumot butunlay o'chirib yuboriladi.</p>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeModal()">Bekor qilish</button>
+                <button class="btn btn-danger" id="confirmBtn">Ha, o'chirish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">CHORTOQMMTB</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="home">
+                <i class="fas fa-home"></i>
+                <span>Bosh sahifa</span>
+            </a>
+            <a href="#" class="nav-item" data-section="news">
+                <i class="fas fa-newspaper"></i>
+                <span>Yangiliklar</span>
+            </a>
+            <a href="#" class="nav-item" data-section="leadership">
+                <i class="fas fa-users"></i>
+                <span>Rahbariyat</span>
+            </a>
+            <a href="#" class="nav-item" data-section="facilities">
+                <i class="fas fa-building"></i>
+                <span>Muassasalar</span>
+            </a>
+            <a href="#" class="nav-item" data-section="statistics">
+                <i class="fas fa-chart-bar"></i>
+                <span>Statistika</span>
+            </a>
+            <a href="#" class="nav-item" data-section="vacancies">
+                <i class="fas fa-briefcase"></i>
+                <span>Vakansiyalar</span>
+            </a>
+            <a href="#" class="nav-item" data-section="reception">
+                <i class="fas fa-headset"></i>
+                <span>Virtual Qabulxona</span>
+            </a>
+            <a href="#" class="nav-item" data-section="gallery">
+                <i class="fas fa-images"></i>
+                <span>Galereya</span>
+            </a>
+            <a href="#" class="nav-item" data-section="contact">
+                <i class="fas fa-envelope"></i>
+                <span>Aloqa</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+                <span>Tungi rejim</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-btn" id="menuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-logo">
+                    <div class="logo-icon small">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <span>CHORTOQMMTB</span>
+                </div>
+            </div>
+
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Qidirish...">
+            </div>
+
+            <div class="header-right">
+                <div class="header-icon" id="themeToggleHeader">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name" id="userName">Mehmon</span>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#" id="authBtn" onclick="showSection('auth')">
+                            <i class="fas fa-sign-in-alt"></i> Kirish
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT AREA -->
+        <main class="content">
+            <!-- HOME SECTION -->
+            <section class="section active" id="home">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            <span class="gradient-text">CHORTOQMMTB</span>
+                            ga xush kelibsiz!
+                        </h1>
+                        <p class="hero-subtitle">Zamonaviy ta'lim muassasasi</p>
+                        <button class="btn btn-primary btn-lg" onclick="showSection('news')">
+                            <i class="fas fa-arrow-right"></i> Yangiliklarni ko'rish
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-users"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="statUsers">0</span>
+                                <span class="stat-label">Talabalar</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="statTeachers">0</span>
+                                <span class="stat-label">O'qituvchilar</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-newspaper"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="statPosts">0</span>
+                                <span class="stat-label">Ma'lumotlar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2><i class="fas fa-fire"></i> So'nggi Yangiliklar</h2>
+                </div>
+                <div class="posts-grid" id="homePosts"></div>
+            </section>
+
+            <!-- NEWS SECTION -->
+            <section class="section" id="news">
+                <div class="section-header">
+                    <h2><i class="fas fa-newspaper"></i> Yangiliklar</h2>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Barchasi</button>
+                        <button class="filter-btn" data-filter="yangiliklar">Yangiliklar</button>
+                        <button class="filter-btn" data-filter="rahbariyat">Rahbariyat</button>
+                        <button class="filter-btn" data-filter="muassasalar">Muassasalar</button>
+                    </div>
+                </div>
+                <div class="posts-grid" id="newsPosts"></div>
+            </section>
+
+            <!-- LEADERSHIP SECTION -->
+            <section class="section" id="leadership">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Rahbariyat</h2>
+                </div>
+                <div class="posts-grid" id="leadershipPosts"></div>
+            </section>
+
+            <!-- FACILITIES SECTION -->
+            <section class="section" id="facilities">
+                <div class="section-header">
+                    <h2><i class="fas fa-building"></i> Muassasalar</h2>
+                </div>
+                <div class="posts-grid" id="facilitiesPosts"></div>
+            </section>
+
+            <!-- STATISTICS SECTION -->
+            <section class="section" id="statistics">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Statistika</h2>
+                </div>
+                <div class="stats-dashboard">
+                    <div class="stats-overview">
+                        <div class="stats-card large">
+                            <div class="stats-card-header">
+                                <h3>Kategoriya bo'yicha</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="stats-card large">
+                            <div class="stats-card-header">
+                                <h3>Eng ko'p ko'rilgan</h3>
+                            </div>
+                            <div class="top-posts-list" id="topPostsList"></div>
+                        </div>
+                    </div>
+                    <div class="stats-cards-row">
+                        <div class="mini-stat-card">
+                            <div class="mini-stat-icon blue"><i class="fas fa-file-alt"></i></div>
+                            <div class="mini-stat-info">
+                                <span class="mini-stat-number" id="totalPosts">0</span>
+                                <span class="mini-stat-label">Jami ma'lumotlar</span>
+                            </div>
+                        </div>
+                        <div class="mini-stat-card">
+                            <div class="mini-stat-icon green"><i class="fas fa-eye"></i></div>
+                            <div class="mini-stat-info">
+                                <span class="mini-stat-number" id="totalViews">0</span>
+                                <span class="mini-stat-label">Jami ko'rishlar</span>
+                            </div>
+                        </div>
+                        <div class="mini-stat-card">
+                            <div class="mini-stat-icon purple"><i class="fas fa-user"></i></div>
+                            <div class="mini-stat-info">
+                                <span class="mini-stat-number" id="totalUsers">0</span>
+                                <span class="mini-stat-label">Foydalanuvchilar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="posts-grid" id="statisticsPosts"></div>
+            </section>
+
+            <!-- VACANCIES SECTION -->
+            <section class="section" id="vacancies">
+                <div class="section-header">
+                    <h2><i class="fas fa-briefcase"></i> Vakansiyalar</h2>
+                </div>
+                <div class="posts-grid" id="vacanciesPosts"></div>
+            </section>
+
+            <!-- RECEPTION SECTION -->
+            <section class="section" id="reception">
+                <div class="section-header">
+                    <h2><i class="fas fa-headset"></i> Virtual Qabulxona</h2>
+                </div>
+                <div class="posts-grid" id="receptionPosts"></div>
+            </section>
+
+            <!-- GALLERY SECTION -->
+            <section class="section" id="gallery">
+                <div class="section-header">
+                    <h2><i class="fas fa-images"></i> Galereya</h2>
+                </div>
+                <div class="posts-grid gallery-grid" id="galleryPosts"></div>
+            </section>
+
+            <!-- CONTACT SECTION -->
+            <section class="section" id="contact">
+                <div class="section-header">
+                    <h2><i class="fas fa-envelope"></i> Aloqa</h2>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <h3>Telefon</h3>
+                        <p>+998 (69) 412-34-56</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h3>Manzil</h3>
+                        <p>Chortoq shahri, Ta'lim bo'limi binosi</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <h3>Email</h3>
+                        <p>info@chortoq-mmtb.uz</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <h3>Ish vaqti</h3>
+                        <p>Dushanba - Juma: 8:00 - 17:00</p>
+                    </div>
+                </div>
+                <div class="posts-grid" id="contactPosts"></div>
+            </section>
+
+            <!-- POST DETAIL -->
+            <section class="section" id="postDetail">
+                <button class="btn btn-outline back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Orqaga
+                </button>
+                <div class="detail-content">
+                    <h1 id="detailTitle"></h1>
+                    <div class="detail-meta">
+                        <span><i class="fas fa-user"></i> <span id="detailAuthor"></span></span>
+                        <span><i class="fas fa-calendar"></i> <span id="detailDate"></span></span>
+                        <span><i class="fas fa-eye"></i> <span id="detailViews"></span> marta ko'rilgan</span>
+                    </div>
+                    <img id="detailImage" src="" alt="" class="detail-image">
+                    <div id="detailContent" class="detail-text"></div>
+                </div>
+            </section>
+
+            <!-- AUTH SECTION -->
+            <section class="section" id="auth">
+                <div class="auth-container">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">
+                            <i class="fas fa-sign-in-alt"></i> Kirish
+                        </button>
+                        <button class="auth-tab" data-tab="register">
+                            <i class="fas fa-user-plus"></i> Ro'yxatdan o'tish
+                        </button>
+                    </div>
+
+                    <div class="auth-form" id="loginForm">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Login</label>
+                            <input type="text" id="loginUsername" placeholder="Login kiriting">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Parol</label>
+                            <input type="password" id="loginPassword" placeholder="Parol kiriting">
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="handleLogin()">
+                            <i class="fas fa-sign-in-alt"></i> Kirish
+                        </button>
+                    </div>
+
+                    <div class="auth-form hidden" id="registerForm">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Login</label>
+                            <input type="text" id="regUsername" placeholder="Login kiriting">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user-tag"></i> To'liq ism</label>
+                            <input type="text" id="regFullName" placeholder="To'liq ismingiz">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="regEmail" placeholder="Email kiriting">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Parol</label>
+                            <input type="password" id="regPassword" placeholder="Parol kiriting">
+                        </div>
+                        <button class="btn btn-success btn-block" onclick="handleRegister()">
+                            <i class="fas fa-user-plus"></i> Ro'yxatdan o'tish
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ADMIN DASHBOARD -->
+            <section class="section" id="adminDashboard">
+                <div class="section-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Admin Boshqaruv Paneli</h2>
+                    <button class="btn btn-danger" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Chiqish
+                    </button>
+                </div>
+
+                <div class="admin-stats">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="admin-stat-info">
+                            <span class="admin-stat-number" id="adminTotalPosts">0</span>
+                            <span class="admin-stat-label">Ma'lumotlar</span>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon"><i class="fas fa-eye"></i></div>
+                        <div class="admin-stat-info">
+                            <span class="admin-stat-number" id="adminTotalViews">0</span>
+                            <span class="admin-stat-label">Ko'rishlar</span>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="admin-stat-info">
+                            <span class="admin-stat-number" id="adminTotalUsers">0</span>
+                            <span class="admin-stat-label">Foydalanuvchilar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-content">
+                    <div class="admin-form-card">
+                        <h3><i class="fas fa-plus-circle"></i> Yangi Ma'lumot Qo'shish</h3>
+                        <div class="form-group">
+                            <label>Kategoriya</label>
+                            <select id="postCategory">
+                                <option value="yangiliklar">Yangiliklar</option>
+                                <option value="rahbariyat">Rahbariyat</option>
+                                <option value="muassasalar">Muassasalar</option>
+                                <option value="statistika">Statistika</option>
+                                <option value="vakansiyalar">Vakansiyalar</option>
+                                <option value="virtual-qabulxona">Virtual Qabulxona</option>
+                                <option value="galereya">Galereya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Sarlavha</label>
+                            <input type="text" id="postTitle" placeholder="Ma'lumot sarlavhasi">
+                        </div>
+                        <div class="form-group">
+                            <label>Matn</label>
+                            <textarea id="postContent" rows="5" placeholder="Ma'lumot matni..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Rasm (ixtiyoriy)</label>
+                            <div class="file-upload" id="fileUploadArea">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Rasmni bu yerga tashlang yoki bosing</p>
+                                <input type="file" id="postImage" accept="image/*" class="file-input">
+                            </div>
+                            <div id="imagePreview" class="image-preview hidden">
+                                <img id="previewImg" src="" alt="Preview">
+                                <button class="btn btn-sm btn-danger" onclick="removeImage()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Teqlar (ixtiyoriy)</label>
+                            <input type="text" id="postTags" placeholder="yangilik, ta'lim (vergul bilan ajrating)">
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="savePost()">
+                            <i class="fas fa-save"></i> Saqlash
+                        </button>
+                    </div>
+
+                    <div class="admin-posts-card">
+                        <h3><i class="fas fa-list"></i> Barcha Ma'lumotlar</h3>
+                        <div class="admin-posts-list" id="adminPostsList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- USER PROFILE -->
+            <section class="section" id="userProfile">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-circle"></i> Profilim</h2>
+                    <button class="btn btn-danger" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Chiqish
+                    </button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 id="profileFullName"></h3>
+                    <p id="profileUsername"></p>
+                    <p id="profileEmail"></p>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>&copy; 2026 CHORTOQMMTB. Barcha huquqlar himoyalangan.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
