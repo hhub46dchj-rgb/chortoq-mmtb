@@ -308,6 +308,8 @@ function updateUserUI() {
     const userName = document.getElementById('userName');
     const userAvatar = document.getElementById('userAvatar');
     const authBtn = document.getElementById('authBtn');
+    const adminNavLink = document.getElementById('adminNavLink');
+    const adminPanelBtn = document.getElementById('adminPanelBtn');
 
     if (currentUser) {
         userName.textContent = currentUser.fullName || currentUser.username;
@@ -317,8 +319,12 @@ function updateUserUI() {
         
         if (currentUser.role === 'admin') {
             document.body.classList.add('admin');
+            if (adminNavLink) adminNavLink.style.display = 'flex';
+            if (adminPanelBtn) adminPanelBtn.style.display = 'block';
         } else {
             document.body.classList.remove('admin');
+            if (adminNavLink) adminNavLink.style.display = 'none';
+            if (adminPanelBtn) adminPanelBtn.style.display = 'none';
         }
     } else {
         userName.textContent = 'Mehmon';
@@ -326,6 +332,8 @@ function updateUserUI() {
         authBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Kirish`;
         authBtn.onclick = () => showSection('auth');
         document.body.classList.remove('admin');
+        if (adminNavLink) adminNavLink.style.display = 'none';
+        if (adminPanelBtn) adminPanelBtn.style.display = 'none';
     }
 }
 
@@ -566,6 +574,96 @@ async function deletePost(id, event) {
         }
         closeModal();
     };
+}
+
+let editingPostId = null;
+
+async function editPost(id) {
+    try {
+        const post = await apiCall(`/posts/${id}`);
+        
+        editingPostId = id;
+        
+        document.getElementById('postCategory').value = post.category;
+        document.getElementById('postTitle').value = post.title;
+        document.getElementById('postContent').value = post.content;
+        document.getElementById('postTags').value = (post.tags || []).join(', ');
+        
+        if (post.image) {
+            document.getElementById('previewImg').src = post.image;
+            document.getElementById('imagePreview').classList.remove('hidden');
+        }
+        
+        const saveBtn = document.querySelector('#adminDashboard .btn-primary.btn-block');
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Yangilash';
+        saveBtn.onclick = updatePost;
+        
+        showToast('Tahrirlash rejimiga o\'tildi', 'info');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+        showToast(error.message, 'error');
+    }
+}
+
+async function updatePost() {
+    if (!editingPostId) return;
+    
+    const category = document.getElementById('postCategory').value;
+    const title = document.getElementById('postTitle').value.trim();
+    const content = document.getElementById('postContent').value.trim();
+    const imageFile = document.getElementById('postImage').files[0];
+    const tags = document.getElementById('postTags').value;
+
+    if (!title || !content) {
+        showToast('Sarlavha va matn shart!', 'error');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('category', category);
+    formData.append('title', title);
+    formData.append('content', content);
+    if (imageFile) {
+        formData.append('image', imageFile);
+    }
+    if (tags) {
+        formData.append('tags', JSON.stringify(tags.split(',').map(t => t.trim())));
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/posts/${editingPostId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        showToast('Ma\'lumot yangilandi!', 'success');
+        
+        editingPostId = null;
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postContent').value = '';
+        document.getElementById('postImage').value = '';
+        document.getElementById('postTags').value = '';
+        document.getElementById('imagePreview').classList.add('hidden');
+        
+        const saveBtn = document.querySelector('#adminDashboard .btn-primary.btn-block');
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Saqlash';
+        saveBtn.onclick = savePost;
+
+        loadAdminPosts();
+        loadPosts();
+    } catch (error) {
+        showToast(error.message, 'error');
+    }
 }
 
 function closeModal() {
