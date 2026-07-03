@@ -60,11 +60,11 @@ router.post('/login', async (req, res) => {
         }
 
         if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-            let adminUser = await User.findOne({ username: 'admin' });
+            let adminUser = await User.findOne({ username: process.env.ADMIN_USERNAME });
             
             if (!adminUser) {
                 adminUser = new User({
-                    username: 'admin',
+                    username: process.env.ADMIN_USERNAME,
                     password: process.env.ADMIN_PASSWORD,
                     role: 'admin',
                     fullName: ' Administrator'
