@@ -58,7 +58,18 @@
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background-color: #1e293b;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+}
+
+.bg-slider::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3) 0%, rgba(124, 58, 237, 0.3) 100%);
+    z-index: 1;
 }
 
 .slide {
@@ -71,16 +82,16 @@
     background-position: center;
     opacity: 0;
     transition: opacity 2s ease-in-out;
+    filter: brightness(0.7) contrast(1.1);
 }
 
 .slide.active {
-    opacity: 0.7;
+    opacity: 0.5;
 }
 
-.slide-1 { background-image: url('../images/1.jpg'); }
-.slide-2 { background-image: url('../images/2.jpg'); }
-.slide-3 { background-image: url('../images/3.jpg'); }
-.slide-4 { background-image: url('../images/4.jpg'); }
+.slide-1 { background-image: url('../images/2.jpg'); }
+.slide-2 { background-image: url('../images/3.jpg'); }
+.slide-3 { background-image: url('../images/4.jpg'); }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -272,6 +283,14 @@ body {
     justify-content: center;
     color: white;
     font-size: 20px;
+    overflow: hidden;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: auto;
 }
 
 .logo-icon.small {
